@@ -1,0 +1,19 @@
+# Build artifacts
+backend/target/
+backend.zip
+
+# Log files
+*.log
+
+# IDE
+.idea/
+*.iml
+*.iws
+.project
+.classpath
+.settings/
+
+# Node
+node_modules/
+dist/
+coverage/

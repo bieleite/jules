@@ -1,0 +1,114 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: jules
+      changes:
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_categories_parent_id
+                    references: categories(id)
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: slug
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_products_category_id
+                    references: categories(id)
+              - column:
+                  name: sku
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: materials
+                  type: text
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: "now()"
+              - column:
+                  name: updated_at
+                  type: timestamptz
+                  defaultValueComputed: "now()"
+
+        - createTable:
+            tableName: prices
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_prices_product_id
+                    references: products(id)
+              - column:
+                  name: currency
+                  type: char(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: numeric(12, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: valid_from
+                  type: timestamptz
+                  defaultValueComputed: "now()"
+              - column:
+                  name: valid_to
+                  type: timestamptz
